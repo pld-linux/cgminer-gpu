@@ -1,12 +1,12 @@
-Summary:	GPU/FPGA/ASIC Miner by Con Kolivas
+Summary:	CPU/GPU/FPGA Miner by Con Kolivas
 Name:		cgminer
-Version:	3.1.0
+Version:	2.11.4
 Release:	1
 License:	GPL v2
 Group:		Applications/Networking
 URL:		http://forum.bitcoin.org/index.php?topic=28402.0
-Source0:	http://ck.kolivas.org/apps/cgminer/%{name}-%{version}.tar.bz2
-# Source0-md5:	1493626854c8654e4285bcd7ec7b0f7d
+Source0:	http://ck.kolivas.org/apps/cgminer/2.11/%{name}-%{version}.tar.bz2
+# Source0-md5:	535ca85b504bd408d1eeddf4962ed685
 Patch0:		%{name}-build.patch
 BuildRequires:	Mesa-libOpenCL-devel
 BuildRequires:	amd-adl-sdk-devel
@@ -23,7 +23,7 @@ This is a miner for Bitcoin.
 
 %prep
 %setup -q
-%patch0 -p1
+#%patch0 -p1
 
 %build
 %{__aclocal}
@@ -32,10 +32,8 @@ This is a miner for Bitcoin.
 	CPPFLAGS="%{rpmcppflags} -I/usr/include/ncurses" \
 	--disable-silent-rules \
 	--enable-scrypt \
-	--enable-bflsc \
 	--enable-bitforce \
 	--enable-icarus \
-	--enable-avalon \
 	--enable-modminer \
 	--enable-ztex
 
@@ -57,7 +55,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc API-README ASIC-README AUTHORS FPGA-README GPU-README
+%doc API-README AUTHORS FPGA-README 
 %doc NEWS README SCRYPT-README
 %attr(755,root,root) %{_bindir}/%{name}
 %dir %{_libdir}/%{name}
