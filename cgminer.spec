@@ -1,3 +1,4 @@
+%bcond_with	opencl
 Summary:	CPU/GPU/FPGA Miner by Con Kolivas
 Name:		cgminer
 Version:	2.11.4
@@ -8,7 +9,7 @@ URL:		http://forum.bitcoin.org/index.php?topic=28402.0
 Source0:	http://ck.kolivas.org/apps/cgminer/2.11/%{name}-%{version}.tar.bz2
 # Source0-md5:	535ca85b504bd408d1eeddf4962ed685
 Patch0:		%{name}-build.patch
-BuildRequires:	Mesa-libOpenCL-devel
+%{?with_opencl:BuildRequires:	Mesa-libOpenCL-devel}
 BuildRequires:	amd-adl-sdk-devel
 BuildRequires:	curl-devel
 BuildRequires:	libusb-devel
@@ -30,6 +31,7 @@ This is a miner for Bitcoin.
 %{__autoconf}
 %configure \
 	CPPFLAGS="%{rpmcppflags} -I/usr/include/ncurses" \
+	%{!?with_opencl:--disable-opencl} \
 	--disable-silent-rules \
 	--enable-cpumining \
 	--enable-scrypt \
