@@ -31,6 +31,7 @@ This is a miner for Bitcoin.
 %configure \
 	CPPFLAGS="%{rpmcppflags} -I/usr/include/ncurses" \
 	--disable-silent-rules \
+	--enable-cpumining \
 	--enable-scrypt \
 	--enable-bitforce \
 	--enable-icarus \
