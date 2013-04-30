@@ -1,4 +1,4 @@
-Summary:	CPU/GPU Miner by Con Kolivas
+Summary:	GPU/FPGA/ASIC Miner by Con Kolivas
 Name:		cgminer
 Version:	3.1.0
 Release:	1
@@ -19,10 +19,7 @@ BuildRequires:	yasm >= 1.1.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-This is a multi-threaded CPU and GPU miner for Bitcoin.
-
-The present package is compiled without support for GPU mining, so
-only CPU mining is possible at this moment.
+This is a miner for Bitcoin.
 
 %prep
 %setup -q
