@@ -23,7 +23,7 @@ This is a miner for Bitcoin.
 
 %prep
 %setup -q
-#%patch0 -p1
+%patch0 -p1
 
 %build
 %{__aclocal}
