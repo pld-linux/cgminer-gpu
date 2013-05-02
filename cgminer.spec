@@ -1,4 +1,4 @@
-%bcond_with	opencl
+%bcond_without	opencl
 Summary:	CPU/GPU/FPGA Miner by Con Kolivas
 Name:		cgminer
 Version:	2.11.4
