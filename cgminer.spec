@@ -1,12 +1,13 @@
+# TODO -devel subpackage
 Summary:	GPU/FPGA/ASIC Miner by Con Kolivas
 Name:		cgminer
-Version:	3.1.0
+Version:	3.7.2
 Release:	1
 License:	GPL v2
 Group:		Applications/Networking
 URL:		http://forum.bitcoin.org/index.php?topic=28402.0
 Source0:	http://ck.kolivas.org/apps/cgminer/%{name}-%{version}.tar.bz2
-# Source0-md5:	1493626854c8654e4285bcd7ec7b0f7d
+# Source0-md5:	82739bb98dca12786592792d9a44979c
 Patch0:		%{name}-build.patch
 BuildRequires:	Mesa-libOpenCL-devel
 BuildRequires:	amd-adl-sdk-devel
@@ -33,11 +34,17 @@ This is a miner for Bitcoin.
 	--disable-silent-rules \
 	--enable-scrypt \
 	--enable-bflsc \
+	--enable-knc \
+	--enable-opencl \
+	--enable-hashfast \
 	--enable-bitforce \
+	--enable-klondike \
+	--enable-bitfury \
 	--enable-icarus \
 	--enable-avalon \
 	--enable-modminer \
-	--enable-ztex
+	--enable-ztex \
+	--with-system-libusb
 
 %{__make}
 
@@ -60,6 +67,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc API-README ASIC-README AUTHORS FPGA-README GPU-README
 %doc NEWS README SCRYPT-README
 %attr(755,root,root) %{_bindir}/%{name}
+%attr(755,root,root) %{_libdir}/libjansson.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libjansson.so.4
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/%{name}
 %{_libdir}/%{name}/bitstreams
