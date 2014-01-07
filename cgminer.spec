@@ -1,14 +1,17 @@
-# TODO -devel subpackage
 Summary:	FPGA/ASIC Miner by Con Kolivas
 Name:		cgminer
 Version:	3.8.3
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		Applications/Networking
 URL:		http://forum.bitcoin.org/index.php?topic=28402.0
 Source0:	http://ck.kolivas.org/apps/cgminer/%{name}-%{version}.tar.bz2
 # Source0-md5:	ec70aee505fa3e8d9cbe566a65d420cb
+Patch0:		%{name}-system-jansson.patch
+BuildRequires:	autoconf
+BuildRequires:	automake
 BuildRequires:	curl-devel
+BuildRequires:	jansson-devel
 BuildRequires:	libusb-devel
 BuildRequires:	ncurses-devel
 BuildRequires:	pkgconfig >= 0.9.0
@@ -21,10 +24,13 @@ This is a miner for Bitcoin.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
-%{__aclocal}
+%{__aclocal} -I m4
 %{__autoconf}
+%{__autoheader}
+%{__automake}
 %configure \
 	CPPFLAGS="%{rpmcppflags} -I/usr/include/ncurses" \
 	--disable-silent-rules \
@@ -63,8 +69,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc API-README ASIC-README AUTHORS FPGA-README
 %doc NEWS README
 %attr(755,root,root) %{_bindir}/%{name}
-%attr(755,root,root) %{_libdir}/libjansson.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libjansson.so.4
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/%{name}
 %{_libdir}/%{name}/bitstreams

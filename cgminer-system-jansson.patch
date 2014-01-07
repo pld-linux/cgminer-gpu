@@ -1,0 +1,62 @@
+diff -dur cgminer-3.8.3.orig/Makefile.am cgminer-3.8.3/Makefile.am
+--- cgminer-3.8.3.orig/Makefile.am	2013-11-22 13:52:57.000000000 +0100
++++ cgminer-3.8.3/Makefile.am	2014-01-07 10:36:06.000000000 +0100
+@@ -1,8 +1,6 @@
+ 
+ ACLOCAL_AMFLAGS = -I m4
+ 
+-JANSSON_INCLUDES= -I$(top_builddir)/compat/jansson-2.5/src -I$(top_srcdir)/compat/jansson-2.5/src
+-
+ if WANT_USBUTILS
+ USBUTILS_INCLUDES = -I$(top_builddir)/compat/libusb-1.0/libusb -I$(top_srcdir)/compat/libusb-1.0/libusb
+ else
+@@ -18,7 +16,7 @@
+ 
+ SUBDIRS		= lib compat ccan
+ 
+-INCLUDES	= $(PTHREAD_FLAGS) -fno-strict-aliasing $(JANSSON_INCLUDES) $(USBUTILS_INCLUDES)
++INCLUDES	= $(PTHREAD_FLAGS) -fno-strict-aliasing $(JANSSON_CFLAGS) $(USBUTILS_INCLUDES)
+ 
+ bin_PROGRAMS	= cgminer
+ 
+diff -dur cgminer-3.8.3.orig/compat/Makefile.am cgminer-3.8.3/compat/Makefile.am
+--- cgminer-3.8.3.orig/compat/Makefile.am	2013-11-17 23:13:00.000000000 +0100
++++ cgminer-3.8.3/compat/Makefile.am	2014-01-07 10:36:15.000000000 +0100
+@@ -1,5 +1,5 @@
+ 
+-SUBDIRS	= jansson-2.5
++SUBDIRS	=
+ 
+ if WANT_USBUTILS
+ if WANT_STATIC_LIBUSB
+Only in cgminer-3.8.3/compat: Makefile.am~
+diff -dur cgminer-3.8.3.orig/configure.ac cgminer-3.8.3/configure.ac
+--- cgminer-3.8.3.orig/configure.ac	2013-11-23 00:32:53.000000000 +0100
++++ cgminer-3.8.3/configure.ac	2014-01-07 10:36:06.000000000 +0100
+@@ -308,9 +308,6 @@
+ 
+ AM_CONDITIONAL([WANT_STATIC_LIBUSB], [test x$dlibusb = xno])
+ 
+-AC_CONFIG_SUBDIRS([compat/jansson-2.5])
+-JANSSON_LIBS="compat/jansson-2.5/src/.libs/libjansson.a"
+-
+ PKG_PROG_PKG_CONFIG()
+ 
+ if test "x$have_cgminer_sdk" = "xtrue"; then
+@@ -331,6 +328,8 @@
+ 	[libcurl=$enableval]
+ 	)
+ 
++PKG_CHECK_MODULES([JANSSON], [jansson >= 2.5])
++
+ if test "x$libcurl" != xno; then
+ 	if test "x$have_win32" != xtrue; then
+ 		PKG_CHECK_MODULES([LIBCURL], [libcurl >= 7.25.0], [AC_DEFINE([CURL_HAS_KEEPALIVE], [1], [Defined if version of curl supports keepalive.])],
+@@ -400,6 +399,7 @@
+ 
+ 
+ AC_SUBST(JANSSON_LIBS)
++AC_SUBST(JANSSON_CFLAGS)
+ AC_SUBST(PTHREAD_FLAGS)
+ AC_SUBST(DLOPEN_FLAGS)
+ AC_SUBST(PTHREAD_LIBS)
