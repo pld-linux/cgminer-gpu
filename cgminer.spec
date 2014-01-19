@@ -1,3 +1,4 @@
+%bcond_with	knc
 Summary:	FPGA/ASIC Miner by Con Kolivas
 Name:		cgminer
 Version:	3.10.0
@@ -36,7 +37,7 @@ This is a miner for Bitcoin.
 	--disable-silent-rules \
 	--enable-scrypt \
 	--enable-bflsc \
-	--enable-knc \
+	--%{?with_knc:en}%{!?with_knc:dis}able-knc \
 	--enable-opencl \
 	--enable-hashfast \
 	--enable-bitforce \
