@@ -1,12 +1,12 @@
 Summary:	FPGA/ASIC Miner by Con Kolivas
 Name:		cgminer
-Version:	3.8.3
-Release:	2
+Version:	3.10.0
+Release:	1
 License:	GPL v2
 Group:		Applications/Networking
 URL:		http://forum.bitcoin.org/index.php?topic=28402.0
 Source0:	http://ck.kolivas.org/apps/cgminer/%{name}-%{version}.tar.bz2
-# Source0-md5:	ec70aee505fa3e8d9cbe566a65d420cb
+# Source0-md5:	8d387e3f98703b00a78021ebca6c7118
 Patch0:		%{name}-system-jansson.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
