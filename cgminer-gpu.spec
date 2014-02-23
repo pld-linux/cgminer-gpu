@@ -1,15 +1,16 @@
 %bcond_with	knc
+%define		rname	cgminer
 Summary:	GPU/FPGA/ASIC Miner by Con Kolivas
-Name:		cgminer
+Name:		%{rname}-gpu
 Version:	3.7.2
 Release:	1
 License:	GPL v2
 Group:		Applications/Networking
 URL:		http://forum.bitcoin.org/index.php?topic=28402.0
-Source0:	http://ck.kolivas.org/apps/cgminer/%{name}-%{version}.tar.bz2
-# Source0-md5:	ec70aee505fa3e8d9cbe566a65d420cb
-Patch0:		%{name}-build.patch
-Patch1:		%{name}-system-jansson.patch
+Source0:	http://ck.kolivas.org/apps/cgminer/3.7/%{rname}-%{version}.tar.bz2
+# Source0-md5:	82739bb98dca12786592792d9a44979c
+Patch0:		%{rname}-build.patch
+Patch1:		%{rname}-system-jansson.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	Mesa-libOpenCL-devel
@@ -27,7 +28,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 This is a miner for Bitcoin.
 
 %prep
-%setup -q
+%setup -q -n %{rname}-%{version}
 %patch0 -p1
 
 %build
@@ -61,9 +62,9 @@ install -d $RPM_BUILD_ROOT%{_bindir}
 
 %{__make} install \
 	DESTDIR="$RPM_BUILD_ROOT" \
-	bindir=%{_libdir}/%{name}
+	bindir=%{_libdir}/%{rname}
 
-ln -s %{_libdir}/%{name}/%{name} $RPM_BUILD_ROOT%{_bindir}/%{name}
+ln -s %{_libdir}/%{rname}/%{rname} $RPM_BUILD_ROOT%{_bindir}/%{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -73,7 +74,7 @@ rm -rf $RPM_BUILD_ROOT
 %doc API-README ASIC-README AUTHORS FPGA-README GPU-README
 %doc NEWS README SCRYPT-README
 %attr(755,root,root) %{_bindir}/%{name}
-%dir %{_libdir}/%{name}
-%attr(755,root,root) %{_libdir}/%{name}/%{name}
-%{_libdir}/%{name}/bitstreams
-%{_libdir}/%{name}/*.cl
+%dir %{_libdir}/%{rname}
+%attr(755,root,root) %{_libdir}/%{rname}/%{rname}
+%{_libdir}/%{rname}/bitstreams
+%{_libdir}/%{rname}/*.cl
