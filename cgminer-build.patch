@@ -1,0 +1,60 @@
+--- cgminer-3.1.0/configure.ac.org	2013-04-30 13:02:59.103475727 +0200
++++ cgminer-3.1.0/configure.ac	2013-04-30 13:03:46.147989707 +0200
+@@ -188,10 +188,10 @@
+ if test "$found_opencl" = 1; then
+ 	if test "x$adl" != xno; then
+ 		ADL_CPPFLAGS=
+-		AC_CHECK_FILE([$srcdir/ADL_SDK/adl_sdk.h], [have_adl=true; ADL_CPPFLAGS=-I$srcdir], have_adl=false,)
+-		if test x$have_adl+$have_cgminer_sdk = xfalse+true; then
+-			AC_CHECK_FILE([$CGMINER_SDK/include/ADL_SDK/adl_sdk.h], [have_adl=true; ADL_CPPFLAGS=-I$CGMINER_SDK/include], have_adl=false,)
+-		fi
++		saved_CFLAGS="$CFLAGS"
++		CFLAGS="$CFLAGS -DLINUX=1"
++		AC_CHECK_HEADER(adl_sdk.h, [have_adl=true], [have_adl=false])
++		CFLAGS="$saved_CFLAGS"
+ 		if test x$have_adl = xtrue
+ 		then
+ 			AC_DEFINE([HAVE_ADL], [1], [Defined if ADL headers were found])
+diff -urN cgminer-3.1.0.org/adl.c cgminer-3.1.0/adl.c
+--- cgminer-3.1.0.org/adl.c	2013-03-07 06:38:09.000000000 +0100
++++ cgminer-3.1.0/adl.c	2013-04-30 13:08:26.741697503 +0200
+@@ -20,7 +20,7 @@
+ #endif
+ 
+ #include "miner.h"
+-#include "ADL_SDK/adl_sdk.h"
++#include "adl_sdk.h"
+ #include "compat.h"
+ 
+ #if defined (__linux)
+diff -urN cgminer-3.1.0.org/adl_functions.h cgminer-3.1.0/adl_functions.h
+--- cgminer-3.1.0.org/adl_functions.h	2012-08-21 13:21:55.000000000 +0200
++++ cgminer-3.1.0/adl_functions.h	2013-04-30 13:08:32.641845548 +0200
+@@ -38,7 +38,7 @@
+  #include <tchar.h>
+ #endif
+ 
+-#include "ADL_SDK/adl_sdk.h"
++#include "adl_sdk.h"
+ 
+ // Definitions of the used function pointers. Add more if you use other ADL APIs
+ 
+@@ -271,4 +271,4 @@
+ typedef int ( *ADL_OVERDRIVE5_POWERCONTROL_GET ) (int iAdapterIndex, int* iPercentage, int* whatever);
+ typedef int ( *ADL_OVERDRIVE5_POWERCONTROL_SET ) (int iAdapterIndex, int iPercentage);
+ //typedef int ( *ADL_OVERDRIVE5_POWERCONTROL_CAPS ) (int iAdapterIndex, int* lpCaps, int* lpValid);
+-//typedef int ( *ADL_OVERDRIVE5_POWERCONTROLINFO_GET) (int iAdapterIndex, ...)
+\ Brak znaku nowej linii na końcu pliku
++//typedef int ( *ADL_OVERDRIVE5_POWERCONTROLINFO_GET) (int iAdapterIndex, ...)
+diff -urN cgminer-3.1.0.org/miner.h cgminer-3.1.0/miner.h
+--- cgminer-3.1.0.org/miner.h	2013-04-28 17:46:07.000000000 +0200
++++ cgminer-3.1.0/miner.h	2013-04-30 13:08:39.532018428 +0200
+@@ -103,7 +103,7 @@
+ 
+ 
+ #ifdef HAVE_ADL
+- #include "ADL_SDK/adl_sdk.h"
++ #include "adl_sdk.h"
+ #endif
+ 
+ #ifdef HAVE_LIBUSB

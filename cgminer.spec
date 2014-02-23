@@ -1,16 +1,19 @@
 %bcond_with	knc
-Summary:	FPGA/ASIC Miner by Con Kolivas
+Summary:	GPU/FPGA/ASIC Miner by Con Kolivas
 Name:		cgminer
-Version:	3.8.3
-Release:	2
+Version:	3.7.2
+Release:	1
 License:	GPL v2
 Group:		Applications/Networking
 URL:		http://forum.bitcoin.org/index.php?topic=28402.0
 Source0:	http://ck.kolivas.org/apps/cgminer/%{name}-%{version}.tar.bz2
 # Source0-md5:	ec70aee505fa3e8d9cbe566a65d420cb
-Patch0:		%{name}-system-jansson.patch
+Patch0:		%{name}-build.patch
+Patch1:		%{name}-system-jansson.patch
 BuildRequires:	autoconf
 BuildRequires:	automake
+BuildRequires:	Mesa-libOpenCL-devel
+BuildRequires:	amd-adl-sdk-devel
 BuildRequires:	curl-devel
 BuildRequires:	jansson-devel
 BuildRequires:	libusb-devel
@@ -67,9 +70,10 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc API-README ASIC-README AUTHORS FPGA-README
-%doc NEWS README
+%doc API-README ASIC-README AUTHORS FPGA-README GPU-README
+%doc NEWS README SCRYPT-README
 %attr(755,root,root) %{_bindir}/%{name}
 %dir %{_libdir}/%{name}
 %attr(755,root,root) %{_libdir}/%{name}/%{name}
 %{_libdir}/%{name}/bitstreams
+%{_libdir}/%{name}/*.cl
