@@ -29,7 +29,7 @@ This is a miner for Bitcoin.
 
 %prep
 %setup -q -n %{rname}-%{version}
-%patch0 -p1
+%patch -P0 -p1
 
 %build
 %{__aclocal} -I m4
